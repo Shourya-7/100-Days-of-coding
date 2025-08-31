@@ -1,4 +1,5 @@
 // 1:Sum of two numbers
+
 #include <stdio.h>
 int main() {
     int a, b;
@@ -11,6 +12,7 @@ int main() {
     return 0;
 }
 // 2:Sum, difference, product, and quotient of two numbers
+
 #include <stdio.h>
 int main() {
     int a, b;
@@ -32,6 +34,7 @@ int main() {
     return 0;
 }
 // 3:Area and perimeter of a rectangle
+
 #include <stdio.h>
 int main() {
     int l, b;
@@ -46,6 +49,7 @@ int main() {
     return 0;
 }
  // 4:Area and circumference of a circle
+ 
 #include <stdio.h>
 #define PI 3.14159
 
@@ -60,6 +64,7 @@ int main() {
     return 0;
 }
 // 5:Celsius to Fahrenheit conversion
+
 #include <stdio.h>
 int main() {
     float c;
@@ -71,6 +76,7 @@ int main() {
     return 0;
 }
 // 6:Swap two numbers using a third variable
+
 #include <stdio.h>
 int main() {
     int a, b, temp;
@@ -88,6 +94,7 @@ int main() {
     return 0;
 }
 // 7:Swap two numbers without using a third variable
+
 #include <stdio.h>
 int main() {
     int a, b;
@@ -105,6 +112,7 @@ int main() {
     return 0;
 }
 // 8:Sum of first n natural numbers
+
 #include <stdio.h>
 int main() {
     int n, sum = 0;
@@ -120,6 +128,7 @@ int main() {
     return 0;
 }
 // 9:Simple and compound interest
+
 #include <stdio.h>
 #include <math.h>
 
@@ -142,6 +151,7 @@ int main() {
     return 0;
 }
 // 10:Online C compiler to run C program online
+
 #include <stdio.h>
 
 int main() {
