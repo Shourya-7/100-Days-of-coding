@@ -1,0 +1,193 @@
+// Q91 - Remove all vowels from a string.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int isv(char c){ c=tolower((unsigned char)c); return c=='a'||c=='e'||c=='i'||c=='o'||c=='u'; }
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    for(int i=0;s[i] && s[i]!='\n';i++) if(!isv(s[i])) putchar(s[i]);
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q92 - Find the first repeating lowercase alphabet in a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int seen[26]={0};
+    for(int i=0;s[i] && s[i]!='\n';i++){
+        char ch=s[i];
+        if(ch>='a'&&ch<='z'){
+            if(seen[ch-'a']){ printf("%c\n",ch); return 0; }
+            seen[ch-'a']=1;
+        }
+    }
+    printf("None\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q93 - Check if two strings are anagrams of each other.
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main(void){
+    char a[10005], b[10005];
+    if(!fgets(a,sizeof(a),stdin)) return 0;
+    if(!fgets(b,sizeof(b),stdin)) return 0;
+    int cnt[256]={0};
+    for(int i=0;a[i] && a[i]!='\n';i++) cnt[(unsigned char)a[i]]++;
+    for(int i=0;b[i] && b[i]!='\n';i++) cnt[(unsigned char)b[i]]--;
+    for(int i=0;i<256;i++) if(cnt[i]){ printf("Not Anagram\n"); return 0; }
+    printf("Anagram\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q94 - Find the longest word in a sentence.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int bestLen=0,bstart=0,cur=0,start=0;
+    for(int i=0;;i++){
+        char ch=s[i];
+        if(ch==' '||ch=='\n'||ch=='\0'){
+            if(cur>bestLen){ bestLen=cur; bstart=start; }
+            if(ch=='\0'||ch=='\n') break;
+            cur=0; start=i+1;
+        }else cur++;
+    }
+    for(int i=0;i<bestLen;i++) putchar(s[bstart+i]);
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q95 - Check if one string is a rotation of another.
+
+#include <stdio.h>
+#include <string.h>
+
+int main(void){
+    char a[10005], b[10005];
+    if(!fgets(a,sizeof(a),stdin)) return 0;
+    if(!fgets(b,sizeof(b),stdin)) return 0;
+    int n=strcspn(a,"\n"); a[n]='\0';
+    int m=strcspn(b,"\n"); b[m]='\0';
+    if(n!=m){ printf("No\n"); return 0; }
+    char t[20010]; strcpy(t,a); strcat(t,a);
+    // simple substring search
+    int found=0;
+    for(int i=0;i<=2*n-m;i++){
+        int ok=1;
+        for(int j=0;j<m;j++) if(t[i+j]!=b[j]){ ok=0; break; }
+        if(ok){ found=1; break; }
+    }
+    printf(found?"Yes\n":"No\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q96 - Reverse each word in a sentence without changing the word order.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int i=0;
+    while(s[i] && s[i]!='\n'){
+        int j=i; while(s[j] && s[j]!=' ' && s[j]!='\n') j++;
+        for(int k=j-1;k>=i;k--) putchar(s[k]);
+        if(s[j]==' ') putchar(' ');
+        i = (s[j]==' ')? j+1 : j;
+    }
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q97 - Print the initials of a name.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int i=0; while(s[i]==' ') i++;
+    if(s[i]){ putchar(toupper((unsigned char)s[i])); putchar('.'); }
+    while(s[i] && s[i]!='\n'){
+        if(s[i]==' '){
+            while(s[i]==' ') i++;
+            if(s[i] && s[i]!='\n'){ putchar(toupper((unsigned char)s[i])); putchar('.'); }
+        } else i++;
+    }
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q98 - Print initials of a name with the surname displayed in full.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int n=0; while(s[n] && s[n]!='\n') n++;
+    int end=n-1; while(end>=0 && s[end]==' ') end--;
+    int start=end; while(start>=0 && s[start]!=' ') start--;
+    // surname = s[start+1..end]
+    // print initials for words before surname
+    int i=0; while(i<=start){
+        while(i<=start && s[i]==' ') i++;
+        if(i>start) break;
+        putchar(toupper((unsigned char)s[i])); putchar('.');
+        while(i<=start && s[i]!=' ') i++;
+    }
+    if(start<end){
+        if(start>=0) putchar(' ');
+        for(int k=start+1;k<=end;k++) putchar(s[k]);
+    }
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q99 - Change the date format from dd/mm/yyyy to dd-mm-yyyy.
+
+#include <stdio.h>
+
+int main(void){
+    int d,m,y; if(scanf("%d/%d/%d",&d,&m,&y)!=3) return 0;
+    printf("%02d-%02d-%04d\n",d,m,y); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q100 - Print all sub-strings of a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[505]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int n=0; while(s[n] && s[n]!='\n') n++;
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            for(int k=i;k<=j;k++) putchar(s[k]);
+            printf("\n");
+        }
+    }
+    return 0;
+}
+
+// --------------------------------------------------------------
