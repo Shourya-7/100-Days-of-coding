@@ -1,0 +1,156 @@
+// Q81 - Count characters in a string without using built-in length functions.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005];
+    if(!fgets(s,sizeof(s),stdin)) return 0;
+    int n=0; while(s[n] && s[n]!='\n') n++;
+    printf("%d\n",n); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q82 - Print each character of a string on a new line.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005];
+    if(!fgets(s,sizeof(s),stdin)) return 0;
+    for(int i=0; s[i] && s[i]!='\n'; ++i) printf("%c\n", s[i]);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q83 - Count vowels and consonants in a string.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int v=0,c=0;
+    for(int i=0;s[i];i++){
+        if(s[i]=='\n') break;
+        if(isalpha((unsigned char)s[i])){
+            char ch=tolower((unsigned char)s[i]);
+            if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u') v++; else c++;
+        }
+    }
+    printf("Vowels: %d\nConsonants: %d\n",v,c); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q84 - Convert a lowercase string to uppercase without using built-in functions.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    for(int i=0;s[i] && s[i]!='\n';i++){
+        char ch=s[i];
+        if(ch>='a' && ch<='z') ch = ch - 'a' + 'A';
+        printf("%c", ch);
+    }
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q85 - Reverse a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int n=0; while(s[n] && s[n]!='\n') n++;
+    for(int i=n-1;i>=0;i--) printf("%c",s[i]);
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q86 - Check if a string is a palindrome.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int l=0; while(s[l] && s[l]!='\n') l++;
+    int i=0,j=l-1;
+    while(i<j){
+        char a=s[i], b=s[j];
+        if(a!=b){ printf("Not Palindrome\n"); return 0; }
+        i++; j--;
+    }
+    printf("Palindrome\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q87 - Count spaces, digits, and special characters in a string.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    int spaces=0,digits=0,special=0;
+    for(int i=0;s[i] && s[i]!='\n';i++){
+        unsigned char ch=s[i];
+        if(ch==' ') spaces++;
+        else if(isdigit(ch)) digits++;
+        else if(isalpha(ch)) {/* ignore */}
+        else special++;
+    }
+    printf("Spaces: %d\nDigits: %d\nSpecial: %d\n",spaces,digits,special);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q88 - Replace spaces with hyphens in a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    for(int i=0;s[i] && s[i]!='\n';i++) putchar(s[i]==' ' ? '-' : s[i]);
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q89 - Count frequency of a given character in a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    char ch; scanf(" %c",&ch);
+    int cnt=0; for(int i=0;s[i] && s[i]!='\n';i++) if(s[i]==ch) cnt++;
+    printf("%d\n",cnt); return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q90 - Toggle case of each character in a string.
+
+#include <stdio.h>
+
+int main(void){
+    char s[10005]; if(!fgets(s,sizeof(s),stdin)) return 0;
+    for(int i=0;s[i] && s[i]!='\n';i++){
+        char ch=s[i];
+        if(ch>='a'&&ch<='z') ch=ch-'a'+'A';
+        else if(ch>='A'&&ch<='Z') ch=ch-'A'+'a';
+        putchar(ch);
+    }
+    printf("\n"); return 0;
+}
+
+// --------------------------------------------------------------
