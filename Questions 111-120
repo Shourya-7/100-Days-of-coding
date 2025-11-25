@@ -1,0 +1,226 @@
+// Q111 - First negative integer in each subarray of size k (print 0 for windows with no negative).
+// Input: n k\narr...\n
+#include <stdio.h>
+#include <stdlib.h>
+
+int main_Q111(void){
+    int n,k;
+    if(scanf("%d %d",&n,&k)!=2) return 0;
+    int *a = malloc(sizeof(int)*n);
+    for(int i=0;i<n;i++) scanf("%d",&a[i]);
+    if(k>n || k<=0){ free(a); return 0; }
+    int *dq = malloc(sizeof(int)*n);
+    int head=0, tail=0;
+    for(int i=0;i<n;i++){
+        while(head<tail && dq[head] <= i-k) head++;
+        if(a[i]<0) dq[tail++]=i;
+        if(i>=k-1){
+            if(i>k-1) printf(" ");
+            if(head<tail) printf("%d", a[dq[head]]); else printf("0");
+        }
+    }
+    printf("\n");
+    free(a); free(dq);
+    return 0;
+}
+int main(){ return main_Q111(); }
+
+// --------------------------------------------------------------
+
+// Q112 - Maximum subarray sum (Kadane's algorithm).
+#include <stdio.h>
+#include <limits.h>
+
+int main_Q112(void){
+    int n; scanf("%d",&n);
+    long long best = LLONG_MIN, cur = 0;
+    for(int i=0;i<n;i++){
+        long long x; scanf("%lld",&x);
+        if(cur>0) cur+=x; else cur=x;
+        if(cur>best) best=cur;
+    }
+    printf("%lld\n", best);
+    return 0;
+}
+int main112(){ return main_Q112(); }
+
+// --------------------------------------------------------------
+
+// Q113 - kth smallest element
+#include <stdio.h>
+#include <stdlib.h>
+
+static int cmp_int(const void *a,const void *b){
+    return *(int*)a - *(int*)b;
+}
+
+int main_Q113(void){
+    int n,k; scanf("%d %d",&n,&k);
+    int *arr = malloc(n*sizeof(int));
+    for(int i=0;i<n;i++) scanf("%d",&arr[i]);
+    qsort(arr,n,sizeof(int),cmp_int);
+    printf("%d\n", arr[k-1]);
+    return 0;
+}
+int main113(){ return main_Q113(); }
+
+// --------------------------------------------------------------
+
+// Q114 - Longest substring without repeating characters
+#include <stdio.h>
+#include <string.h>
+
+int main_Q114(void){
+    char s[10005];
+    fgets(s,10005,stdin);
+    int n=strcspn(s,"\n");
+    int last[256]; for(int i=0;i<256;i++) last[i]=-1;
+    int start=0,best=0;
+    for(int i=0;i<n;i++){
+        unsigned char c=s[i];
+        if(last[c]>=start) start=last[c]+1;
+        last[c]=i;
+        int len=i-start+1;
+        if(len>best) best=len;
+    }
+    printf("%d\n",best);
+    return 0;
+}
+int main114(){ return main_Q114(); }
+
+// --------------------------------------------------------------
+
+// Q115 - Anagram check
+#include <stdio.h>
+#include <string.h>
+
+int main_Q115(void){
+    char s[10005], t[10005];
+    fgets(s,10005,stdin); fgets(t,10005,stdin);
+    int c[26]={0};
+    int ns=strcspn(s,"\n"); s[ns]=0;
+    int nt=strcspn(t,"\n"); t[nt]=0;
+    for(int i=0;s[i];i++) c[s[i]-'a']++;
+    for(int i=0;t[i];i++) c[t[i]-'a']--;
+    for(int i=0;i<26;i++) if(c[i]!=0){ printf("Not Anagram\n"); return 0; }
+    printf("Anagram\n");
+    return 0;
+}
+int main115(){ return main_Q115(); }
+
+// --------------------------------------------------------------
+
+// Q116 - Two-sum
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int main_Q116(void){
+    int n,target; scanf("%d %d",&n,&target);
+    int *a=malloc(n*sizeof(int));
+    for(int i=0;i<n;i++) scanf("%d",&a[i]);
+    int m=1; while(m<n*2) m<<=1;
+    int *keys=malloc(m*sizeof(int)), *vals=malloc(m*sizeof(int));
+    for(int i=0;i<m;i++) keys[i]=INT_MIN;
+    for(int i=0;i<n;i++){
+        int need=target-a[i];
+        int h=need&(m-1);
+        while(keys[h]!=INT_MIN){
+            if(keys[h]==need){ printf("%d %d\n",vals[h],i); return 0; }
+            h=(h+1)&(m-1);
+        }
+        h=a[i]&(m-1);
+        while(keys[h]!=INT_MIN) h=(h+1)&(m-1);
+        keys[h]=a[i]; vals[h]=i;
+    }
+    printf("-1 -1\n");
+    return 0;
+}
+int main116(){ return main_Q116(); }
+
+// --------------------------------------------------------------
+
+// Q117 - Merge two sorted arrays
+#include <stdio.h>
+#include <stdlib.h>
+
+int main_Q117(void){
+    int m,n; scanf("%d %d",&m,&n);
+    int *A=malloc(m*sizeof(int)), *B=malloc(n*sizeof(int));
+    for(int i=0;i<m;i++) scanf("%d",&A[i]);
+    for(int i=0;i<n;i++) scanf("%d",&B[i]);
+    int i=0,j=0,first=1;
+    while(i<m || j<n){
+        int v;
+        if(i<m && (j>=n||A[i]<=B[j])) v=A[i++];
+        else v=B[j++];
+        if(!first) printf(" ");
+        printf("%d",v);
+        first=0;
+    }
+    printf("\n");
+    return 0;
+}
+int main117(){ return main_Q117(); }
+
+// --------------------------------------------------------------
+
+// Q118 - Missing number from 0..n
+#include <stdio.h>
+
+int main_Q118(void){
+    int n; scanf("%d",&n);
+    long long x1=0,x2=0;
+    for(int i=0;i<=n;i++) x1^=i;
+    for(int i=0;i<n;i++){
+        int x; scanf("%d",&x);
+        x2^=x;
+    }
+    printf("%lld\n", x1^x2);
+    return 0;
+}
+int main118(){ return main_Q118(); }
+
+// --------------------------------------------------------------
+
+// Q119 - Repeated number (Floyd)
+#include <stdio.h>
+#include <stdlib.h>
+
+int main_Q119(void){
+    int n; scanf("%d",&n);
+    int *a=malloc(n*sizeof(int));
+    for(int i=0;i<n;i++) scanf("%d",&a[i]);
+    int t=a[0], h=a[0];
+    do{ t=a[t]; h=a[a[h]]; } while(t!=h);
+    t=a[0];
+    while(t!=h){ t=a[t]; h=a[h]; }
+    printf("%d\n",t);
+    return 0;
+}
+int main119(){ return main_Q119(); }
+
+// --------------------------------------------------------------
+
+// Q120 - Sentence case
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main_Q120(void){
+    char s[10005];
+    fgets(s,10005,stdin);
+    int n=strcspn(s,"\n"); s[n]=0;
+    int done=0;
+    for(int i=0;i<n;i++){
+        if(!done && isalpha(s[i])){
+            s[i]=toupper(s[i]);
+            done=1;
+        } else s[i]=tolower(s[i]);
+    }
+    printf("%s\n",s);
+    return 0;
+}
+int main120(){ return main_Q120(); }
+
+// --------------------------------------------------------------
