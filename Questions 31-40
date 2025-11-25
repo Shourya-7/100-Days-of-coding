@@ -1,0 +1,257 @@
+// Q31 - Write a program to take a number as input and print its equivalent binary representation.
+
+#include <stdio.h>
+
+int main(void) {
+    int n;
+    scanf("%d", &n);
+
+    long long bin = 0, place = 1;
+    while (n > 0) {
+        int bit = n % 2;
+        bin += bit * place;
+        place *= 10;
+        n /= 2;
+    }
+    printf("%lld\n", bin);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q32 - Write a program to check if a number is a palindrome.
+
+#include <stdio.h>
+
+int main(void) {
+    int num, temp, rev = 0;
+    scanf("%d", &num);
+
+    temp = num;
+    while (temp != 0) {
+        rev = rev * 10 + (temp % 10);
+        temp /= 10;
+    }
+
+    if (rev == num)
+        printf("Palindrome\n");
+    else
+        printf("Not Palindrome\n");
+
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q33 - Write a program to check if a number is an Armstrong number.
+
+#include <stdio.h>
+
+long long ipow(long long b, int e) {
+    long long r = 1;
+    while (e--) r *= b;
+    return r;
+}
+
+int main(void) {
+    long long n;
+    if (scanf("%lld", &n) != 1) return 0;
+
+    if (n < 0) { printf("Not Armstrong\n"); return 0; }
+
+    long long temp = n;
+    int digits = 0;
+    if (temp == 0) digits = 1;
+    while (temp > 0) { digits++; temp /= 10; }
+
+    temp = n;
+    long long sum = 0;
+    while (temp > 0) {
+        int d = (int)(temp % 10);
+        sum += ipow(d, digits);
+        temp /= 10;
+    }
+    if (n == 0) sum = 0;
+
+    if (sum == n) printf("Armstrong\n");
+    else          printf("Not Armstrong\n");
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q34 - Write a program to check if a number is prime.
+
+#include <stdio.h>
+
+int main(void) {
+    long long n;
+    if (scanf("%lld", &n) != 1) return 0;
+
+    if (n <= 1) { printf("Not Prime\n"); return 0; }
+    if (n == 2) { printf("Prime\n"); return 0; }
+    if (n % 2 == 0) { printf("Not Prime\n"); return 0; }
+
+    for (long long i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) { printf("Not Prime\n"); return 0; }
+    }
+    printf("Prime\n");
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q35 - Write a program to print all factors of a given number.
+
+#include <stdio.h>
+
+int main(void) {
+    long long n;
+    if (scanf("%lld", &n) != 1) return 0;
+
+    if (n == 0) { 
+        printf("Undefined\n");
+        return 0; 
+    }
+    if (n < 0) n = -n;
+
+    for (long long i = 1; i <= n; i++) {
+        if (n % i == 0) {
+            printf("%lld", i);
+            if (i != n) printf(" ");
+        }
+    }
+    printf("\n");
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q36 - Write a program to find the HCF (GCD) of two numbers.
+
+#include <stdio.h>
+
+long long llabsll(long long x){ return x < 0 ? -x : x; }
+
+int main(void) {
+    long long a, b;
+    if (scanf("%lld %lld", &a, &b) != 2) return 0;
+
+    a = llabsll(a);
+    b = llabsll(b);
+
+    if (a == 0 && b == 0) { printf("0\n"); return 0; }
+
+    while (b != 0) {
+        long long t = a % b;
+        a = b;
+        b = t;
+    }
+    printf("%lld\n", a);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q37 - Write a program to find the LCM of two numbers.
+
+#include <stdio.h>
+
+long long llabsll(long long x){ return x < 0 ? -x : x; }
+
+long long gcdll(long long a, long long b) {
+    a = llabsll(a); b = llabsll(b);
+    if (a == 0) return b;
+    if (b == 0) return a;
+    while (b != 0) { long long t = a % b; a = b; b = t; }
+    return a;
+}
+
+int main(void) {
+    long long a, b;
+    if (scanf("%lld %lld", &a, &b) != 2) return 0;
+
+    if (a == 0 || b == 0) { printf("0\n"); return 0; }
+    long long g = gcdll(a, b);
+    long long lcm = llabsll(a / g * b);
+    printf("%lld\n", lcm);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q38 - Write a program to find the sum of digits of a number.
+
+#include <stdio.h>
+
+long long llabsll(long long x){ return x < 0 ? -x : x; }
+
+int main(void) {
+    long long n;
+    if (scanf("%lld", &n) != 1) return 0;
+
+    n = llabsll(n);
+    long long sum = 0;
+    if (n == 0) sum = 0;
+    while (n > 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    printf("%lld\n", sum);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q39 - Write a program to find the product of odd digits of a number.
+
+#include <stdio.h>
+
+int main(void) {
+    long long n;
+    if (scanf("%lld", &n) != 1) return 0;
+
+    n = (n < 0) ? -n : n;
+    if (n == 0) { printf("0\n"); return 0; }
+
+    long long prod = 1;
+    int hasOdd = 0;
+
+    while (n > 0) {
+        int d = n % 10;
+        if (d % 2 == 1) { prod *= d; hasOdd = 1; }
+        n /= 10;
+    }
+    printf("%lld\n", hasOdd ? prod : 0);
+    return 0;
+}
+
+// --------------------------------------------------------------
+
+// Q40 - Write a program to find the 1's complement of a binary number and print it.
+
+#include <stdio.h>
+
+int main(void) {
+    long long bin;
+    if (scanf("%lld", &bin) != 1) return 0;
+
+    if (bin == 0) { printf("1\n"); return 0; }
+
+    long long revComp = 0;
+    while (bin > 0) {
+        int bit = bin % 10;
+        int cbit = (bit == 0) ? 1 : 0;
+        revComp = revComp * 10 + cbit;
+        bin /= 10;
+    }
+    long long comp = 0;
+    while (revComp > 0) {
+        comp = comp * 10 + (revComp % 10);
+        revComp /= 10;
+    }
+    printf("%lld\n", comp);
+    return 0;
+}
+
+// --------------------------------------------------------------
