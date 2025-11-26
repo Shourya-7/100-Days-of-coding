@@ -183,3 +183,34 @@ int main_Q147(void){
 int main147(){ return main_Q147(); }
 
 // --------------------------------------------------------------
+
+// Q148 - Take two structs as input and check if they are identical.
+#include <stdio.h>
+#include <string.h>
+
+struct Data148 {
+    char name[100];
+    int id;
+    float score;
+};
+
+int main_Q148(void){
+    struct Data148 a, b;
+
+    // Input format example:
+    // name id score
+    // name id score
+    scanf("%s %d %f", a.name, &a.id, &a.score);
+    scanf("%s %d %f", b.name, &b.id, &b.score);
+
+    if(strcmp(a.name, b.name)==0 && a.id == b.id && a.score == b.score)
+        printf("Identical\n");
+    else
+        printf("Not Identical\n");
+
+    return 0;
+}
+int main(){ return main_Q148(); }
+
+// --------------------------------------------------------------
+
