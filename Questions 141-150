@@ -213,4 +213,62 @@ int main_Q148(void){
 int main(){ return main_Q148(); }
 
 // --------------------------------------------------------------
+// Q149 - Use malloc() to allocate structure memory dynamically and print details.
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student149 {
+    char name[100];
+    int roll;
+    float marks;
+};
+
+int main_Q149(void){
+    struct Student149 *s;
+
+    // Allocate memory dynamically
+    s = (struct Student149*)malloc(sizeof(struct Student149));
+    if(s == NULL){
+        printf("Memory Allocation Failed\n");
+        return 0;
+    }
+
+    // Input format: name roll marks
+    scanf("%s %d %f", s->name, &s->roll, &s->marks);
+
+    // Print details
+    printf("%s %d %.2f\n", s->name, s->roll, s->marks);
+
+    free(s); // release memory
+    return 0;
+}
+int main(){ return main_Q149(); }
+
+// --------------------------------------------------------------
+// Q150 - Use pointer to struct to modify and display data using -> operator.
+#include <stdio.h>
+
+struct Info150 {
+    char name[100];
+    int age;
+};
+
+int main_Q150(void){
+    struct Info150 s;
+    struct Info150 *p = &s;
+
+    scanf("%s %d", p->name, &p->age);
+
+    // Modify using pointer
+    p->age = p->age + 1;   // Example modification
+
+    printf("%s %d\n", p->name, p->age);
+
+    return 0;
+}
+
+int main150(){ return main_Q150(); }
+
+// --------------------------------------------------------------
+
 
